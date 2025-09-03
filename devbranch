@@ -1,0 +1,23 @@
+import os
+import shutil
+from datetime import datetime
+
+def backup_folder(source_folder, backup_root):
+    if not os.path.exists(source_folder):
+        print(f"Source folder '{source_folder}' does not exist.")
+        return
+
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    backup_folder_name = f"{os.path.basename(source_folder)}_backup_{timestamp}"
+    backup_path = os.path.join(backup_root, backup_folder_name)
+
+    try:
+        shutil.copytree(source_folder, backup_path)
+        print(f"Backup created at: {backup_path}")
+    except Exception as e:
+        print(f"Error during backup: {e}")
+
+if __name__ == "__main__":
+    source = input("Enter the path of the folder to backup: ")
+    backup_location = input("Enter the backup destination folder: ")
+    backup_folder(source, backup_location)
